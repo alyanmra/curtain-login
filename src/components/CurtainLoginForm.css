@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Manrope:wght@400;500;700&display=swap');
+
+.curtain-login {
+  --night-1: #141432;
+  --night-2: #2b2850;
+  --day-1: #ffd9a6;
+  --day-2: #ff9472;
+  --fabric: #5c2a3a;
+  --fabric-dark: #3e1c27;
+  --gold: #d9b65c;
+  --cream: #f7f1e6;
+  --ink: #241f3a;
+
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.25rem;
+  font-family: 'Manrope', sans-serif;
+  color: var(--ink);
+
+  /* Closed = dark room, open = daylight. Synced with the curtain's 1.1s glide. */
+  background-color: #0b0a14;
+  transition: background-color 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.curtain-login.is-open {
+  background-color: var(--cream);
+}
+
+.curtain-login__card {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.curtain-login__window {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.6);
+}
+
+/* Sky layers */
+.sky {
+  position: absolute;
+  inset: 0;
+}
+
+.sky--night {
+  background: linear-gradient(to bottom, var(--night-1), var(--night-2));
+  opacity: 1;
+}
+
+.sky--day {
+  background: linear-gradient(to bottom, var(--day-1), var(--day-2));
+  opacity: 0;
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+}
+
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #f7f1e6;
+  animation: twinkle 2.6s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.95; }
+}
+
+.sun {
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  margin-left: -45px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff6df, #ffcf6b 60%, #ffb648 100%);
+  box-shadow: 0 0 60px 18px rgba(255, 204, 112, 0.55);
+  opacity: 0;
+}
+
+/* Login form */
+.curtain-login__form {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: 2rem 1.75rem;
+  opacity: 0;
+  color-scheme: light; /* stop the browser swapping in dark-mode form controls */
+}
+
+.curtain-login__form h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+}
+
+.curtain-login__sub {
+  margin: -0.4rem 0 0.5rem;
+  font-size: 0.88rem;
+  color: rgba(36, 31, 58, 0.72);
+}
+
+.curtain-login__form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(36, 31, 58, 0.85);
+}
+
+.curtain-login__form input {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.95rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid rgba(36, 31, 58, 0.18);
+  background-color: #ffffff;
+  color: var(--ink);
+  caret-color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.curtain-login__form input::placeholder {
+  color: rgba(36, 31, 58, 0.4);
+}
+
+/* Some browsers auto-fill password dots with a light color on dark-styled
+   pages; this keeps the dots/text dark no matter what theme the OS is in. */
+.curtain-login__form input:-webkit-autofill {
+  -webkit-text-fill-color: var(--ink);
+  box-shadow: 0 0 0 1000px #ffffff inset;
+}
+
+.curtain-login__form input:focus-visible {
+  border-color: var(--fabric);
+  background-color: #ffffff;
+}
+
+.curtain-login__form button {
+  margin-top: 0.4rem;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--fabric);
+  color: var(--cream);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.curtain-login__form button:hover {
+  background: var(--fabric-dark);
+}
+
+.curtain-login__form button:active {
+  transform: scale(0.98);
+}
+
+/* Curtains */
+.curtain-login__curtain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 3;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--fabric) 0px,
+    var(--fabric) 16px,
+    var(--fabric-dark) 16px,
+    var(--fabric-dark) 22px
+  );
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35);
+}
+
+.curtain-login__curtain::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: var(--gold);
+}
+
+.curtain-login__curtain--left {
+  left: 0;
+}
+
+.curtain-login__curtain--right {
+  right: 0;
+}
+
+/* Rod + rope */
+.curtain-login__rod {
+  width: 104%;
+  height: 6px;
+  margin-top: -2px;
+  background: var(--gold);
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.curtain-login__rope {
+  margin-top: 0.9rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.curtain-login__tassel {
+  width: 2px;
+  height: 34px;
+  background: var(--gold);
+  display: block;
+  position: relative;
+}
+
+.curtain-login__tassel::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.curtain-login__rope:hover .curtain-login__tassel {
+  background: var(--fabric);
+}
+.curtain-login__rope:hover .curtain-login__tassel::after {
+  background: var(--fabric);
+}
+
+.curtain-login__hint {
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.55);
+  transition: color 1.1s ease;
+}
+
+.curtain-login.is-open .curtain-login__hint {
+  color: rgba(36, 31, 58, 0.6);
+}
+
+@media (max-width: 360px) {
+  .curtain-login__form {
+    padding: 1.5rem 1.25rem;
+  }
+}
